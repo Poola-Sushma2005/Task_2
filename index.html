@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form & To-Do List</title>
+    <style>
+        /* Reset and basic layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .form-container, .todo-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background-color: #ff7e5f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #feb47b;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li button {
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        li button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Contact Form</h2>
+            <form id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+            <p id="formResponse"></p>
+        </div>
+
+        <div class="todo-container">
+            <h2>To-Do List</h2>
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button id="addTodoBtn">Add Task</button>
+            <ul id="todoList"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Contact Form Submission Handling
+        const contactForm = document.getElementById('contactForm');
+        const formResponse = document.getElementById('formResponse');
+
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent form submission
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // For now, just simulate a successful form submission
+            formResponse.innerHTML = `<strong>Thank you, ${name}!</strong> We have received your message.`;
+
+            // Clear the form
+            contactForm.reset();
+        });
+
+        // To-Do List Functionality
+        const todoInput = document.getElementById('todoInput');
+        const addTodoBtn = document.getElementById('addTodoBtn');
+        const todoList = document.getElementById('todoList');
+
+        // Add new task
+        addTodoBtn.addEventListener('click', function() {
+            const task = todoInput.value.trim();
+            if (task) {
+                const li = document.createElement('li');
+                li.innerHTML = `${task} <button class="deleteBtn">Delete</button>`;
+                
+                // Delete task functionality
+                li.querySelector('.deleteBtn').addEventListener('click', function() {
+                    li.remove();
+                });
+
+                todoList.appendChild(li);
+                todoInput.value = '';  // Clear input
+            }
+        });
+
+        // Optionally, you could add an event listener for 'Enter' key press for task submission
+        todoInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                addTodoBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
